@@ -56,10 +56,12 @@ def not_joined_markup():
 
 def main_menu(user_id):
   markup = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+  # دکمه جدید در سمت راست بالا قرار گرفت تا بیشتر تو چشم باشد
   markup.add(
+      KeyboardButton('🔥اکانت 10 فول رایگان🔥'),
+      KeyboardButton('💥اکانت 20 فول رایگان💥'),
       KeyboardButton('🎁 اکانت روزانه 🎁'),
       KeyboardButton('🎁 40 فول رایگان'),
-      KeyboardButton('💥اکانت 20 فول رایگان💥'),
       KeyboardButton('💥جایزه ویژه💥'),
       KeyboardButton('🎁اکانت خام 117🎁'),
       KeyboardButton('🎁 پست سایرن رایگان'),
@@ -148,7 +150,6 @@ def handle(message):
   numeric_user_id = message.from_user.id
 
   data = load_data()
-  today = datetime.now().strftime('%Y-%m-%d')
 
   if user_id not in data:
     data[user_id] = {'invites': 0, 'last_daily': None}
@@ -172,44 +173,47 @@ def handle(message):
         reply_markup=main_menu(numeric_user_id),
     )
 
-  elif message.text == '🎁 اکانت روزانه 🎁':
-    bot.send_message(
-        message.chat.id, '❌ این گزینه فعلا خاموش شده است.'
-    )
-
-  elif message.text == '🎁 40 فول رایگان':
-    msg_40 = (
-        '❌ این اکانت به برنده اش تعلق گرفته برای دیدن تحویل اکانت هم این لینک'
-        ' رو چک کنن چک رضایت تحویل رو چک کنن:\nhttps://t.me/TRUST1_MANI/28\n\nاگر'
-        ' میخوای برنده بعدی تو باشی بزن رو گزینه 💥اکانت 20 فول رایگان💥'
-    )
-    bot.send_message(message.chat.id, msg_40)
-
-  elif message.text == '💥اکانت 20 فول رایگان💥':
-    if current_invites >= 45:
-      prize_msg = (
-          '💎 تبریک! شما ۴۵ نفر را دعوت کردید و اکانت ۲۰ فول رایگان به شما تعلق'
-          ' گرفت:\n\nHajsuahsjs@gmail.com\nAiiw2828'
+  elif message.text == '🔥اکانت 10 فول رایگان🔥':
+    if current_invites >= 20:
+      prize_10_msg = (
+          'این اکانت ، شخصی قبل شما برنده شده است دیر اقدام کردین.'
       )
-      bot.send_message(message.chat.id, prize_msg)
+      bot.send_message(message.chat.id, prize_10_msg)
     else:
-      remaining = 45 - current_invites
+      remaining = 20 - current_invites
       ref_link = f'https://t.me/{(bot.get_me()).username}?start={user_id}'
       ref_msg = (
-          f'⚠️ برای دریافت اکانت ۲۰ فول رایگان باید ۴۵ نفر را دعوت کنید!\n\n👥'
+          f'⚠️ برای دریافت اکانت ۱۰ فول رایگان باید ۲۰ نفر را دعوت کنید!\n\n👥'
           f' تعداد دعوت‌های فعلی شما: {current_invites} نفر\n❌ تعداد'
           f' باقی‌مانده: {remaining} نفر\n\n🔗 برای دریافت اکانت، لینک زیر را'
           f' برای دوستان خود بفرستید:\n{ref_link}'
       )
       bot.send_message(message.chat.id, ref_msg)
 
+  elif message.text == '🎁 اکانت روزانه 🎁':
+    bot.send_message(message.chat.id, '❌ این گزینه فعلا خاموش شده است.')
+
+  elif message.text == '🎁 40 فول رایگان':
+    msg_40 = (
+        '❌ این اکانت به برنده اش تعلق گرفته برای دیدن تحویل اکانت هم این لینک'
+        ' رو چک کنن چک رضایت تحویل رو چک کنن:\nhttps://t.me/TRUST1_MANI/28\n\nاگر'
+        ' میخوای برنده بعدی تو باشی بزن رو گزینه 🔥اکانت 10 فول رایگان🔥'
+    )
+    bot.send_message(message.chat.id, msg_40)
+
+  elif message.text == '💥اکانت 20 فول رایگان💥':
+    msg_20 = (
+        '❌ این اکانت به برنده اش تعلق گرفته برای دیدن تحویل اکانت هم این لینک'
+        ' رو چک کنین رضایت تحویل 👇\nhttps://t.me/TRUST1_MANI/29\n\nاگر میخوای'
+        ' برنده بعدی تو باشی بزن رو گزینه 🔥اکانت 10 فول رایگان🔥'
+    )
+    bot.send_message(message.chat.id, msg_20)
+
   elif message.text == '💥جایزه ویژه💥':
     special_prize_msg = (
-        '💥 برای شرکت در جایزه ویژه:\n\nلطفاً بروید داخل این پست اینستاگرام، آن'
-        ' را لایک کنید، کامنت بگذارید، ذخیره (Save) کنید و برای ۳۰ نفر از'
-        ' دوستانتان ارسال کنید؛ سپس شات آن را برای من به آیدی زیر بفرستید:\n\n🆔'
-        ' @Ssmmssllpp\n\n🔗 لینک پست اینستاگرام:\n'
-        'https://www.instagram.com/reel/DdEkFSINFUl/?stkn=MXY2a3M1c3k3N3Zi'
+        'برای شرکت در جایزه ویژه لطفا ۳ پست اخر لایک سیو شیر کنین به ۳ نفر هم'
+        ' ارسال کنین اسکرین شات شو به این ایدی زیر ارسال کنین و جایزه تون'
+        ' تحویل بگیرین❤️\n\n🆔 @Ssmmssllpp'
     )
     bot.send_message(message.chat.id, special_prize_msg)
 
@@ -305,3 +309,4 @@ def handle(message):
 
 print('Bot is running perfectly...')
 bot.infinity_polling()
+
