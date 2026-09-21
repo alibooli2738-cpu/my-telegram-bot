@@ -9,7 +9,7 @@ from telebot.types import (
 )
 import telebot
 
-TOKEN = '8873507987:AAG3xEQ1fF8SQHjdfY2HQxA5wuYDRKltlPs'
+TOKEN = '8873507987:AAF4kDPEUaLEABmb_gNBKUn4Ci4RYma0rw'
 ADMIN_ID = 6903327854  # آیدی عددی شما برای دسترسی به آمار
 bot = telebot.TeleBot(TOKEN)
 
