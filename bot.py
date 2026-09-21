@@ -10,11 +10,11 @@ from telebot.types import (
 import telebot
 
 TOKEN = '8873507987:AAG3xEQ1fF8SQHjdfY2HQxA5wuYDRKltlPs'
-ADMIN_ID = 6903327854
+ADMIN_ID = 6903327854  # آیدی عددی شما برای دسترسی به آمار
 bot = telebot.TeleBot(TOKEN)
 
 DATA_FILE = 'users.json'
-CHANNEL_USERNAME = '@cod_manii_yt'
+CHANNEL_USERNAME = '@cod_manii_yt'  # آیدی کانال شما برای جوین اجباری
 
 
 def load_data():
@@ -29,6 +29,7 @@ def save_data(data):
     json.dump(data, f)
 
 
+# تابع بررسی عضویت کاربر در کانال
 def check_membership(user_id):
   try:
     member = bot.get_chat_member(CHANNEL_USERNAME, user_id)
@@ -39,6 +40,7 @@ def check_membership(user_id):
   return False
 
 
+# دکمه‌های عضویت در کانال (شیشه ای)
 def not_joined_markup():
   markup = InlineKeyboardMarkup()
   markup.add(
@@ -54,6 +56,7 @@ def not_joined_markup():
 
 def main_menu(user_id):
   markup = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+  # دکمه جدید اکانت ۳۰ فول در اول گزینه ها قرار گرفت
   markup.add(
       KeyboardButton('🎁 اکانت ۳۰ فول رایگان🎁'),
       KeyboardButton('🔥اکانت 10 فول رایگان🔥'),
@@ -73,6 +76,7 @@ def main_menu(user_id):
       KeyboardButton('📸 پیج اینستاگرام'),
       KeyboardButton('🔄 بروزرسانی منو'),
   )
+  # دکمه آمار فقط برای ادمین نمایش داده می‌شود
   if user_id == ADMIN_ID:
     markup.add(KeyboardButton('📊 اطلاعات و آمار ربات (ادمین)'))
   return markup
@@ -86,6 +90,7 @@ def start(message):
   args = message.text.split()
   data = load_data()
 
+  # ثبت کاربر و سیستم رفرال پیش از چک کردن جوین اجباری
   if user_id not in data:
     data[user_id] = {'invites': 0, 'last_daily': None}
     if len(args) > 1:
@@ -93,6 +98,7 @@ def start(message):
       if inviter_id != user_id and inviter_id in data:
         data[inviter_id]['invites'] += 1
         current_invites_inviter = data[inviter_id]['invites']
+        # ارسال پیام اطلاع‌رسانی به معرف
         try:
           bot.send_message(
               inviter_id,
@@ -103,6 +109,7 @@ def start(message):
           pass
     save_data(data)
 
+  # اول چک می‌کنیم عضو کانال هست یا نه
   if not check_membership(numeric_user_id):
     bot.send_message(
         message.chat.id,
@@ -119,6 +126,7 @@ def start(message):
   )
 
 
+# هندلر برای دکمه شیشه ای بررسی عضویت
 @bot.callback_query_handler(func=lambda call: call.data == 'check_join')
 def callback_check_join(call):
   user_id = call.from_user.id
@@ -149,6 +157,7 @@ def handle(message):
     data[user_id] = {'invites': 0, 'last_daily': None}
     save_data(data)
 
+  # چک کردن جوین اجباری برای تمام پیام‌ها و دکمه‌ها
   if not check_membership(numeric_user_id):
     bot.send_message(
         message.chat.id,
@@ -316,6 +325,6 @@ def handle(message):
 
 
 print('Bot is running perfectly...')
-# حذف کامل وب‌هوک قبلی برای جلوگیری از خطای Conflict
-bot.remove_webhook(remove_pending_updates=True)
+bot.remove_webhook()
 bot.infinity_polling()
+
