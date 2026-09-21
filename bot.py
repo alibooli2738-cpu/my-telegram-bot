@@ -40,12 +40,13 @@ def check_membership(user_id):
   return False
 
 
-# دکمه‌های عضویت در کانال (شیشه ای) - متصل به کانال خودت
+# دکمه‌های عضویت در کانال (شیشه ای) - اصلاح شده برای جلوگیری از کش تلگرام
 def not_joined_markup():
   markup = InlineKeyboardMarkup()
   markup.add(
       InlineKeyboardButton(
-          '📢 عضويت در کانال تلگرام', url=f'https://t.me/cod_manii_yt'
+          '📢 عضويت در کانال تلگرام',
+          url='https://t.me/cod_manii_yt?start=join',
       )
   )
   markup.add(
