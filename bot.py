@@ -308,5 +308,7 @@ def handle(message):
 
 
 print('Bot is running perfectly...')
+# حذف وب‌هوک قبلی برای جلوگیری از خطای Conflict (409)
+bot.remove_webhook()
 bot.infinity_polling()
 
