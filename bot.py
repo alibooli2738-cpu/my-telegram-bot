@@ -56,7 +56,7 @@ def not_joined_markup():
 
 def main_menu(user_id):
   markup = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-  # دکمه جدید ۳۰ فول در بالای منو قرار گرفت
+  # دکمه جدید اکانت ۳۰ فول در اول گزینه ها قرار گرفت
   markup.add(
       KeyboardButton('🎁 اکانت ۳۰ فول رایگان🎁'),
       KeyboardButton('🔥اکانت 10 فول رایگان🔥'),
@@ -64,8 +64,8 @@ def main_menu(user_id):
       KeyboardButton('🎁 اکانت روزانه 🎁'),
       KeyboardButton('🎁 40 فول رایگان'),
       KeyboardButton('💥جایزه ویژه💥'),
-      KeyboardButton('🎁 اکانت KRM 🎁'),
       KeyboardButton('🎁اکانت خام 117🎁'),
+      KeyboardButton('🎁 اکانت KRM 🎁'),
       KeyboardButton('🎁 پست سایرن رایگان'),
       KeyboardButton('🎁 پست گوست متیک رایگان🎁'),
       KeyboardButton('🎁 اکانت ۸۰ میلیونی رایگان🎁'),
@@ -193,24 +193,12 @@ def handle(message):
       bot.send_message(message.chat.id, ref_msg)
 
   elif message.text == '🔥اکانت 10 فول رایگان🔥':
-    if current_invites >= 20:
-      prize_10_msg = (
-          '❌ این اکانت به برنده اش تعلق گرفته برای دیدن تحویل اکانت هم این'
-          ' لینک رو چک کنین رضایت تحویل'
-          ' 👇\nhttps://t.me/TRUST1_MANI/30\n\nاگر میخوای برنده بعدی تو باشی بزن'
-          ' رو گزینه 🎁 اکانت ۳۰ فول رایگان🎁'
-      )
-      bot.send_message(message.chat.id, prize_10_msg)
-    else:
-      remaining = 20 - current_invites
-      ref_link = f'https://t.me/{(bot.get_me()).username}?start={user_id}'
-      ref_msg = (
-          f'⚠️ برای دریافت اکانت ۱۰ فول رایگان باید ۲۰ نفر را دعوت کنید!\n\n👥'
-          f' تعداد دعوت‌های فعلی شما: {current_invites} نفر\n❌ تعداد'
-          f' باقی‌مانده: {remaining} نفر\n\n🔗 برای دریافت اکانت، لینک زیر را'
-          f' برای دوستان خود بفرستید:\n{ref_link}'
-      )
-      bot.send_message(message.chat.id, ref_msg)
+    msg_10 = (
+        '❌ این اکانت به برنده اش تعلق گرفته برای دیدن تحویل اکانت هم این لینک'
+        ' رو چک کنین رضایت تحویل 👇\nhttps://t.me/TRUST1_MANI/30\n\nاگر میخوای'
+        ' برنده بعدی تو باشی بزن رو گزینه 🎁 اکانت ۳۰ فول رایگان🎁'
+    )
+    bot.send_message(message.chat.id, msg_10)
 
   elif message.text == '🎁 اکانت روزانه 🎁':
     bot.send_message(message.chat.id, '❌ این گزینه فعلا خاموش شده است.')
@@ -239,18 +227,18 @@ def handle(message):
     )
     bot.send_message(message.chat.id, special_prize_msg)
 
-  elif message.text == '🎁 اکانت KRM 🎁':
-    krm_msg = (
-        'arashmehrabi138712@gmail.com\nmahdiznj1386\n\n⚠️ لطفاً پس از ورود'
-        ' اطلاعات را تغییر دهید.'
-    )
-    bot.send_message(message.chat.id, krm_msg)
-
   elif message.text == '🎁اکانت خام 117🎁':
     post_117_msg = (
         '🎁 اطلاعات اکانت خام 117 شما:\n\nparsa.parsa.92@gmail.com\nparsacallaf92'
     )
     bot.send_message(message.chat.id, post_117_msg)
+
+  elif message.text == '🎁 اکانت KRM 🎁':
+    krm_msg = (
+        '🎁 اطلاعات اکانت KRM شما:\n\narashmehrabi138712@gmail.com\nmahdiznj1386\n\n⚠️'
+        ' لطفاً پس از ورود اطلاعات را تغییر دهید.'
+    )
+    bot.send_message(message.chat.id, krm_msg)
 
   elif message.text == '🎁 پست سایرن رایگان':
     siren_msg = (
