@@ -14,7 +14,10 @@ ADMIN_ID = 6903327854  # آیدی عددی شما برای دسترسی به آ�
 bot = telebot.TeleBot(TOKEN)
 
 DATA_FILE = 'users.json'
-CHANNEL_USERNAME = '@cod_manii_yt'  # آیدی کانال اصلی شما برای جوین اجباری
+CHANNELS = [
+    '@cod_manii_yt',
+    '@TRUST1_MANI',
+]  # کانال‌های جوین اجباری (کانال اصلی و کانال اعتماد)
 
 
 def load_data():
@@ -29,25 +32,30 @@ def save_data(data):
     json.dump(data, f)
 
 
-# تابع بررسی عضویت کاربر در کانال
+# تابع بررسی عضویت کاربر در کانال‌ها
 def check_membership(user_id):
   try:
-    member = bot.get_chat_member(CHANNEL_USERNAME, user_id)
-    if member.status in ['member', 'administrator', 'creator']:
-      return True
+    for channel in CHANNELS:
+      member = bot.get_chat_member(channel, user_id)
+      if member.status not in ['member', 'administrator', 'creator']:
+        return False
+    return True
   except Exception:
-    pass
-  return False
+    return False
 
 
-# دکمه‌های عضویت در کانال (شیشه ای) - اصلاح شده برای جلوگیری از کش تلگرام
+# دکمه‌های عضویت در کانال‌ها (شیشه‌ای)
 def not_joined_markup():
   markup = InlineKeyboardMarkup()
   markup.add(
       InlineKeyboardButton(
-          '📢 عضويت در کانال تلگرام',
+          '📢 عضويت در کانال اول',
           url='https://t.me/cod_manii_yt?start=join',
-      )
+      ),
+      InlineKeyboardButton(
+          '📢 عضويت در کانال دوم (اعتماد)',
+          url='https://t.me/TRUST1_MANI?start=join',
+      ),
   )
   markup.add(
       InlineKeyboardButton('🔄 بررسی عضویت', callback_data='check_join')
@@ -58,7 +66,9 @@ def not_joined_markup():
 def main_menu(user_id):
   markup = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
   markup.add(
+      KeyboardButton('🔸️خرید اکانت شخصی🔸️'),
       KeyboardButton('🎁 اکانت ۳۰ فول رایگان🎁'),
+      KeyboardButton('🎁 اکانت ارتری رایگان🎁'),
       KeyboardButton('🔥اکانت 10 فول رایگان🔥'),
       KeyboardButton('💥اکانت 20 فول رایگان💥'),
       KeyboardButton('🎁 اکانت روزانه 🎁'),
@@ -68,6 +78,7 @@ def main_menu(user_id):
       KeyboardButton('🎁 اکانت KRM 🎁'),
       KeyboardButton('🎁 پست سایرن رایگان'),
       KeyboardButton('🎁 پست گوست متیک رایگان🎁'),
+      KeyboardButton('🎁پست اکانت مهندسی🎁'),
       KeyboardButton('🎁 اکانت ۸۰ میلیونی رایگان🎁'),
       KeyboardButton('🎁 ردیم کد کالاف'),
       KeyboardButton('📊 لینک دعوت (رفرال)'),
@@ -109,8 +120,8 @@ def start(message):
   if not check_membership(numeric_user_id):
     bot.send_message(
         message.chat.id,
-        '⚠️ برای استفاده از ربات، ابتدا باید در کانال ما عضو شوید!\n\nپس از'
-        ' عضویت، روی دکمه‌ی «بررسی عضویت» بزنید:',
+        '⚠️ برای استفاده از ربات، ابتدا باید در کانال‌های ما عضو شوید!\n\nپس از'
+        ' عضویت در تمام کانال‌ها، روی دکمه‌ی «بررسی عضویت» بزنید:',
         reply_markup=not_joined_markup(),
     )
     return
@@ -137,7 +148,7 @@ def callback_check_join(call):
     )
   else:
     bot.answer_callback_query(
-        call.id, '❌ شما هنوز در کانال عضو نشده‌اید!', show_alert=True
+        call.id, '❌ شما هنوز در تمام کانال‌ها عضو نشده‌اید!', show_alert=True
     )
 
 
@@ -155,7 +166,7 @@ def handle(message):
   if not check_membership(numeric_user_id):
     bot.send_message(
         message.chat.id,
-        '⚠️ برای استفاده از ربات، ابتدا باید در کانال ما عضو شوید!',
+        '⚠️ برای استفاده از ربات، ابتدا باید در کانال‌های ما عضو شوید!',
         reply_markup=not_joined_markup(),
     )
     return
@@ -169,17 +180,34 @@ def handle(message):
         reply_markup=main_menu(numeric_user_id),
     )
 
+  elif message.text == '🔸️خرید اکانت شخصی🔸️':
+    personal_buy_msg = (
+        'اگر اکانت شخصی میخوایید فقط خودتون روش پلی بدین با هزینه مناسب فقط کافیه'
+        ' تو پی وی بگین تو چه رنج قیمتی اکانت میخوایید.\n@Ssmmssllpp\n\nلطفا قبل'
+        ' هرچیزی قوانین قبل خرید رو با حوصله چک مرور چک کنین📛👇\n'
+        'https://t.me/TRUST1_MANI/31'
+    )
+    bot.send_message(message.chat.id, personal_buy_msg)
+
   elif message.text == '🎁 اکانت ۳۰ فول رایگان🎁':
-    if current_invites >= 30:
-      prize_30_msg = (
-          'این اکانت قبل تو به برندش تحویل داده شده دیر اقدام کردی❤️'
+    prize_30_msg = (
+        '❌ این اکانت به برنده اش تعلق گرفته برای دیدن تحویل اکانت هم این لینک'
+        ' رو چک کنین رضایت تحویل 👇\nhttps://t.me/TRUST1_MANI/33\n\nاگر میخوای'
+        ' برنده بعدی تو باشی بزن رو گزینه 🎁 اکانت ارتری رایگان🎁'
+    )
+    bot.send_message(message.chat.id, prize_30_msg)
+
+  elif message.text == '🎁 اکانت ارتری رایگان🎁':
+    if current_invites >= 15:
+      artery_delivered_msg = (
+          'دوست عزیز قبل شما این اکانت تحویل برندش داده شده دیر اقدام کردی❤️'
       )
-      bot.send_message(message.chat.id, prize_30_msg)
+      bot.send_message(message.chat.id, artery_delivered_msg)
     else:
-      remaining = 30 - current_invites
+      remaining = 15 - current_invites
       ref_link = f'https://t.me/{(bot.get_me()).username}?start={user_id}'
       ref_msg = (
-          f'⚠️ برای دریافت اکانت ۳۰ فول رایگان باید ۳۰ نفر را دعوت کنید!\n\n👥'
+          f'⚠️ برای دریافت اکانت ارتری رایگان باید ۱۵ نفر را دعوت کنید!\n\n👥'
           f' تعداد دعوت‌های فعلی شما: {current_invites} نفر\n❌ تعداد'
           f' باقی‌مانده: {remaining} نفر\n\n🔗 برای دریافت اکانت، لینک زیر را'
           f' برای دوستان خود بفرستید:\n{ref_link}'
@@ -190,7 +218,7 @@ def handle(message):
     msg_10 = (
         '❌ این اکانت به برنده اش تعلق گرفته برای دیدن تحویل اکانت هم این لینک'
         ' رو چک کنین رضایت تحویل 👇\nhttps://t.me/TRUST1_MANI/30\n\nاگر میخوای'
-        ' برنده بعدی تو باشی بزن رو گزینه 🎁 اکانت ۳۰ فول رایگان🎁'
+        ' برنده بعدی تو باشی بزن رو گزینه 🎁 اکانت ارتری رایگان🎁'
     )
     bot.send_message(message.chat.id, msg_10)
 
@@ -201,7 +229,7 @@ def handle(message):
     msg_40 = (
         '❌ این اکانت به برنده اش تعلق گرفته برای دیدن تحویل اکانت هم این لینک'
         ' رو چک کنن چک رضایت تحویل رو چک کنن:\nhttps://t.me/TRUST1_MANI/28\n\nاگر'
-        ' میخوای برنده بعدی تو باشی بزن رو گزینه 🎁 اکانت ۳۰ فول رایگان🎁'
+        ' میخوای برنده بعدی تو باشی بزن رو گزینه 🎁 اکانت ارتری رایگان🎁'
     )
     bot.send_message(message.chat.id, msg_40)
 
@@ -209,7 +237,7 @@ def handle(message):
     msg_20 = (
         '❌ این اکانت به برنده اش تعلق گرفته برای دیدن تحویل اکانت هم این لینک'
         ' رو چک کنین رضایت تحویل 👇\nhttps://t.me/TRUST1_MANI/29\n\nاگر میخوای'
-        ' برنده بعدی تو باشی بزن رو گزینه 🎁 اکانت ۳۰ فول رایگان🎁'
+        ' برنده بعدی تو باشی بزن رو گزینه 🎁 اکانت ارتری رایگان🎁'
     )
     bot.send_message(message.chat.id, msg_20)
 
@@ -249,6 +277,10 @@ def handle(message):
         ' اطلاعات را تغییر دهید.'
     )
     bot.send_message(message.chat.id, ghost_msg)
+
+  elif message.text == '🎁پست اکانت مهندسی🎁':
+    engineering_acc_msg = 'arshiamalekshahi07@gmail.com\nmehdi2020'
+    bot.send_message(message.chat.id, engineering_acc_msg)
 
   elif message.text == '🎁 اکانت ۸۰ میلیونی رایگان🎁':
     account_85m_msg = (
@@ -296,7 +328,9 @@ def handle(message):
 
   elif message.text == '📢 کانال تلگرام':
     bot.send_message(
-        message.chat.id, '📢 کانال ما:\nhttps://t.me/cod_manii_yt'
+        message.chat.id,
+        '📢 کانال‌های ما:\n1️⃣ https://t.me/cod_manii_yt\n2️⃣'
+        ' https://t.me/TRUST1_MANI',
     )
 
   elif message.text == '📸 پیج اینستاگرام':
@@ -321,4 +355,3 @@ def handle(message):
 print('Bot is running perfectly...')
 bot.remove_webhook()
 bot.infinity_polling()
-
