@@ -67,6 +67,7 @@ def main_menu(user_id):
   markup = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
   markup.add(
       KeyboardButton('🔸️خرید اکانت شخصی🔸️'),
+      KeyboardButton('🎁 اکانت ۱۱ متیک رایگان🎁'),
       KeyboardButton('🎁 اکانت ۳۰ فول رایگان🎁'),
       KeyboardButton('🎁 اکانت ارتری رایگان🎁'),
       KeyboardButton('🔥اکانت 10 فول رایگان🔥'),
@@ -189,36 +190,48 @@ def handle(message):
     )
     bot.send_message(message.chat.id, personal_buy_msg)
 
+  elif message.text == '🎁 اکانت ۱۱ متیک رایگان🎁':
+    if current_invites >= 40:
+      mythic_11_delivered_msg = (
+          'دوست عزیز قبل شما این اکانت به برندش تحویل داده شده دیر اقدام کردی❤️'
+          ' این شخص اکانت تحویل گرفته 𝗞𝗔𝗠𝗜 | 𝗡Ø𝗫'
+      )
+      bot.send_message(message.chat.id, mythic_11_delivered_msg)
+    else:
+      remaining = 40 - current_invites
+      ref_link = f'https://t.me/{(bot.get_me()).username}?start={user_id}'
+      mythic_11_ref_msg = (
+          'عشقا این اکانت به ارزش ۱۵ میلیون قیمت داره بخاطر این رفرالش بالاس'
+          ' ارزش داره ممنون که درک میکنین توجه کنین شما میتونین نه پولی هزینه'
+          ' کنین نه کاری کنین فقط با رفرال گیری اکانت برنده بشین.\n\n⚠️ برای'
+          ' دریافت اکانت ۱۱ متیک رایگان باید ۴۰ نفر را دعوت کنید!\n\n👥 تعداد'
+          f' دعوت‌های فعلی شما: {current_invites} نفر\n❌ تعداد باقی‌مانده:'
+          f' {remaining} نفر\n\n🔗 برای دریافت اکانت، لینک زیر را برای دوستان'
+          f' خود بفرستید:\n{ref_link}'
+      )
+      bot.send_message(message.chat.id, mythic_11_ref_msg)
+
   elif message.text == '🎁 اکانت ۳۰ فول رایگان🎁':
     prize_30_msg = (
         '❌ این اکانت به برنده اش تعلق گرفته برای دیدن تحویل اکانت هم این لینک'
         ' رو چک کنین رضایت تحویل 👇\nhttps://t.me/TRUST1_MANI/33\n\nاگر میخوای'
-        ' برنده بعدی تو باشی بزن رو گزینه 🎁 اکانت ارتری رایگان🎁'
+        ' برنده بعدی تو باشی بزن رو گزینه 🎁 اکانت ۱۱ متیک رایگان🎁'
     )
     bot.send_message(message.chat.id, prize_30_msg)
 
   elif message.text == '🎁 اکانت ارتری رایگان🎁':
-    if current_invites >= 15:
-      artery_delivered_msg = (
-          'دوست عزیز قبل شما این اکانت تحویل برندش داده شده دیر اقدام کردی❤️'
-      )
-      bot.send_message(message.chat.id, artery_delivered_msg)
-    else:
-      remaining = 15 - current_invites
-      ref_link = f'https://t.me/{(bot.get_me()).username}?start={user_id}'
-      ref_msg = (
-          f'⚠️ برای دریافت اکانت ارتری رایگان باید ۱۵ نفر را دعوت کنید!\n\n👥'
-          f' تعداد دعوت‌های فعلی شما: {current_invites} نفر\n❌ تعداد'
-          f' باقی‌مانده: {remaining} نفر\n\n🔗 برای دریافت اکانت، لینک زیر را'
-          f' برای دوستان خود بفرستید:\n{ref_link}'
-      )
-      bot.send_message(message.chat.id, ref_msg)
+    artery_delivered_msg = (
+        '❌ این اکانت به برنده اش تعلق گرفته برای دیدن تحویل اکانت هم این لینک'
+        ' رو چک کنین رضایت تحویل 👇\nhttps://t.me/TRUST1_MANI/36\n\nاگر میخوای'
+        ' برنده بعدی تو باشی بزن رو گزینه 🎁 اکانت 11 متیک رایگان🎁'
+    )
+    bot.send_message(message.chat.id, artery_delivered_msg)
 
   elif message.text == '🔥اکانت 10 فول رایگان🔥':
     msg_10 = (
         '❌ این اکانت به برنده اش تعلق گرفته برای دیدن تحویل اکانت هم این لینک'
         ' رو چک کنین رضایت تحویل 👇\nhttps://t.me/TRUST1_MANI/30\n\nاگر میخوای'
-        ' برنده بعدی تو باشی بزن رو گزینه 🎁 اکانت ارتری رایگان🎁'
+        ' برنده بعدی تو باشی بزن رو گزینه 🎁 اکانت ۱۱ متیک رایگان🎁'
     )
     bot.send_message(message.chat.id, msg_10)
 
@@ -229,7 +242,7 @@ def handle(message):
     msg_40 = (
         '❌ این اکانت به برنده اش تعلق گرفته برای دیدن تحویل اکانت هم این لینک'
         ' رو چک کنن چک رضایت تحویل رو چک کنن:\nhttps://t.me/TRUST1_MANI/28\n\nاگر'
-        ' میخوای برنده بعدی تو باشی بزن رو گزینه 🎁 اکانت ارتری رایگان🎁'
+        ' میخوای برنده بعدی تو باشی بزن رو گزینه 🎁 اکانت ۱۱ متیک رایگان🎁'
     )
     bot.send_message(message.chat.id, msg_40)
 
@@ -237,15 +250,15 @@ def handle(message):
     msg_20 = (
         '❌ این اکانت به برنده اش تعلق گرفته برای دیدن تحویل اکانت هم این لینک'
         ' رو چک کنین رضایت تحویل 👇\nhttps://t.me/TRUST1_MANI/29\n\nاگر میخوای'
-        ' برنده بعدی تو باشی بزن رو گزینه 🎁 اکانت ارتری رایگان🎁'
+        ' برنده بعدی تو باشی بزن رو گزینه 🎁 اکانت ۱۱ متیک رایگان🎁'
     )
     bot.send_message(message.chat.id, msg_20)
 
   elif message.text == '💥جایزه ویژه💥':
     special_prize_msg = (
-        'برای شرکت در جایزه ویژه لطفا ۳ پست اخر لایک سیو شیر کنین به ۳ نفر هم'
-        ' ارسال کنین اسکرین شات شو به این ایدی زیر ارسال کنین و جایزه تون'
-        ' تحویل بگیرین❤️\n\n🆔 @Ssmmssllpp'
+        'برای شرکت در جایزه ویژه لطفا ۳ پست اخر اینستاگرام لایک سیو شیر کنین به'
+        ' 10 نفر هم ارسال کنین اسکرین شات شو به این ایدی زیر ارسال کنین و جایزه'
+        ' تون تحویل بگیرین❤️\n\n🆔 @Ssmmssllpp'
     )
     bot.send_message(message.chat.id, special_prize_msg)
 
