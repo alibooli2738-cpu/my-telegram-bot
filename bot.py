@@ -67,6 +67,7 @@ def main_menu(user_id):
   markup = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
   markup.add(
       KeyboardButton('🔸️خرید اکانت شخصی🔸️'),
+      KeyboardButton('🎁پست تمپلار🎁'),
       KeyboardButton('🎁 اکانت ۱۱ متیک رایگان🎁'),
       KeyboardButton('🎁 اکانت ۳۰ فول رایگان🎁'),
       KeyboardButton('🎁 اکانت ارتری رایگان🎁'),
@@ -139,7 +140,7 @@ def callback_check_join(call):
   user_id = call.from_user.id
   if check_membership(user_id):
     bot.answer_callback_query(
-        call.id, '✅ تایید شد! حالا می‌تونید از ربات استفاده کنید.'
+        call.id, '✅ تایید شد! حالا می‌‌تونید از ربات استفاده کنید.'
     )
     bot.delete_message(call.message.chat.id, call.message.message_id)
     bot.send_message(
@@ -189,6 +190,12 @@ def handle(message):
         'https://t.me/TRUST1_MANI/31'
     )
     bot.send_message(message.chat.id, personal_buy_msg)
+
+  elif message.text == '🎁پست تمپلار🎁':
+    templar_msg = (
+        '🎁 اطلاعات اکانت پست تمپلار شما:\n\ncarlos11cod@hotmail.com\ncarlos11cod'
+    )
+    bot.send_message(message.chat.id, templar_msg)
 
   elif message.text == '🎁 اکانت ۱۱ متیک رایگان🎁':
     if current_invites >= 40:
